@@ -87,11 +87,23 @@ far weaker claim.</div>
 </div>
 
 <h2>The quintile board</h2>
-<div class="ctx">Q1 is the cheapest fifth of the index on NTM P/E, Q5 the dearest. <b>The cut is
-made once across all 500 ranked names and never recomputed from a filtered subset</b> —
-filtering to one sector shows you where those names sit in the <i>market</i>, which is the question.
+<div class="ctx">Q1 is the cheapest fifth on NTM P/E, Q5 the dearest. <b>Two controls that
+look alike and are not.</b> The <b>universe</b> above sets the population the quintiles are cut
+from — switch it to Health Care and Q1 becomes "cheapest fifth <i>of healthcare</i>". The
+<b>filters</b> below never recut: filter to a sector and you see where those names sit in the
+<i>chosen universe's</i> quintiles. Ranking against the wrong peer group is the easiest mistake to
+make here, so the two are kept apart.
 A <span style="color:#1a4f8b">&#8226;</span> marks a name in your own book. Click any ticker to
 pin it.</div>
+<div class="filters" id="uni">
+  <span><b>Universe</b> (recuts the quintiles):</span>
+  <select id="universe">
+    <option value="sp500">S&amp;P 500 — all 503</option>
+    <option value='Communication Services'>Communication Services — 22 ranked</option><option value='Consumer Discretionary'>Consumer Discretionary — 47 ranked</option><option value='Consumer Staples'>Consumer Staples — 34 ranked</option><option value='Energy'>Energy — 21 ranked</option><option value='Financials'>Financials — 75 ranked</option><option value='Health Care'>Health Care — 58 ranked</option><option value='Industrials'>Industrials — 83 ranked</option><option value='Information Technology'>Information Technology — 73 ranked</option><option value='Materials'>Materials — 25 ranked</option><option value='Real Estate'>Real Estate — 31 ranked</option><option value='Utilities'>Utilities — 31 ranked</option>
+  </select>
+  <span class="cnt" id="uninote">Quintiles recut over <b>all 503 S&amp;P 500 names</b> &mdash;
+    500 rankable on NTM.</span>
+</div>
 <div class="filters" id="basis">
   <span>Cut the board on:</span>
   <button class="vbtn active" data-b="ntm">NTM (forward)</button>
@@ -99,19 +111,15 @@ pin it.</div>
   <span class="cnt" id="basisnote">Board cut on <b>NTM</b> (next-twelve-month consensus) &mdash;
     500 ranked, median 18.8x.</span>
 </div>
-<div class='note'><b>One sector is bunched into a single quintile:</b> <b>Real Estate</b> puts 25 of its 31 ranked names in Q5; <b>Utilities</b> puts 19 of its 31 ranked names in Q3. That one is a property of the metric, not of the market: REITs carry heavy depreciation and are valued on FFO/AFFO, so their GAAP earnings — and therefore their P/E — are structurally understated. Read REITs on the <b>sector</b> quintile only. This is the general reason the sector quintile sits beside the market one throughout.</div>
+<div class='note' id='concnote'><b>One sector is bunched into a single quintile:</b> <b>Real Estate</b> puts 25 of its 31 ranked names in Q5; <b>Utilities</b> puts 19 of its 31 ranked names in Q3. That one is a property of the metric, not of the market: REITs carry heavy depreciation and are valued on FFO/AFFO, so their GAAP earnings — and therefore their P/E — are structurally understated. Read REITs on the <b>sector</b> quintile only. This is the general reason the sector quintile sits beside the market one throughout.</div>
 <div class="board" id="board"></div>
 
 <h2>Quintile boundaries</h2>
 <table class="dt" style="max-width:700px"><thead><tr><th class="l" rowspan="2">Bucket</th>
 <th rowspan="2">Names</th><th colspan="2">NTM (forward)</th><th colspan="2">TTM (trailing)</th></tr>
 <tr><th>Band</th><th>Median</th><th>Band</th><th>Median</th></tr></thead>
-<tbody><tr><td class='l'><span class='qb' style='background:#1a7f4b'>1</span> Q1 — cheapest</td><td>100</td><td>3.5&ndash;12.4x</td><td>10.6x</td><td>3.7&ndash;15.7x</td><td>12.4x</td></tr><tr><td class='l'><span class='qb' style='background:#5aa06a'>2</span> Q2</td><td>100</td><td>12.4&ndash;16.6x</td><td>14.8x</td><td>15.9&ndash;21.2x</td><td>18.9x</td></tr><tr><td class='l'><span class='qb' style='background:#8a8f78'>3</span> Q3</td><td>100</td><td>16.6&ndash;20.4x</td><td>18.8x</td><td>21.3&ndash;28.4x</td><td>24.2x</td></tr><tr><td class='l'><span class='qb' style='background:#c08a5a'>4</span> Q4</td><td>100</td><td>20.4&ndash;27.5x</td><td>23.2x</td><td>28.5&ndash;40.0x</td><td>32.7x</td></tr><tr><td class='l'><span class='qb' style='background:#c0504a'>5</span> Q5 — dearest</td><td>100</td><td>27.5&ndash;167.3x</td><td>35.6x</td><td>40.1&ndash;559.2x</td><td>55.5x</td></tr></tbody></table>
-<div class="ctx">Index median <b>18.8x</b> NTM across 500 ranked names,
-<b>24.2x</b> TTM across 475. The two populations
-are <i>not</i> the same set — each basis is ranked over its own — so the row counts can differ.
-Buckets are equal-<i>count</i>, not equal-width: P/E has a long right tail, so equal-width bands
-would leave three names in Q5.</div>
+<tbody id="edgebody"><tr><td class='l'><span class='qb' style='background:#1a7f4b'>1</span> Q1 — cheapest</td><td>100</td><td>3.5&ndash;12.4x</td><td>10.6x</td><td>3.7&ndash;15.7x</td><td>12.4x</td></tr><tr><td class='l'><span class='qb' style='background:#5aa06a'>2</span> Q2</td><td>100</td><td>12.4&ndash;16.6x</td><td>14.8x</td><td>15.9&ndash;21.2x</td><td>18.9x</td></tr><tr><td class='l'><span class='qb' style='background:#8a8f78'>3</span> Q3</td><td>100</td><td>16.6&ndash;20.4x</td><td>18.8x</td><td>21.3&ndash;28.4x</td><td>24.2x</td></tr><tr><td class='l'><span class='qb' style='background:#c08a5a'>4</span> Q4</td><td>100</td><td>20.4&ndash;27.5x</td><td>23.2x</td><td>28.5&ndash;40.0x</td><td>32.7x</td></tr><tr><td class='l'><span class='qb' style='background:#c0504a'>5</span> Q5 — dearest</td><td>100</td><td>27.5&ndash;167.3x</td><td>35.6x</td><td>40.1&ndash;559.2x</td><td>55.5x</td></tr></tbody></table>
+<div class="ctx" id="edgenote"></div>
 
 <h2>All names <span style="font-weight:400;font-size:12px;color:#5b6672" id="tcount"></span></h2>
 <div class="ctx">Click a column header to sort. <b>Mkt Q</b> is the quintile across the whole
@@ -136,6 +144,31 @@ shrink the denominator the quintiles are cut from.</div>
 <th class="l">Sector</th><th class="l">Why</th><th>NTM EPS</th><th>Price</th><th>Mkt cap</th>
 </tr></thead><tbody><tr><td class='l'>L</td><td class='l'>Loews Corporation</td><td class='l'>Financials</td><td class='l'>no forward consensus</td><td>—</td><td>112.77</td><td>$23B</td></tr><tr><td class='l'>MRNA</td><td class='l'>Moderna</td><td class='l'>Health Care</td><td class='l'>negative forward EPS</td><td>-6.24</td><td>63.67</td><td>$25B</td></tr><tr><td class='l'>WBD</td><td class='l'>Warner Bros. Discovery</td><td class='l'>Communication Services</td><td class='l'>negative forward EPS</td><td>-0.55</td><td>28.17</td><td>$71B</td></tr></tbody></table>
 
+
+<h2 id="index-multiples">Index-level multiples</h2>
+<div class="ctx"><b>Two different questions, both answered.</b> <i>Aggregate</i> is total market
+value &divide; total earnings — the cap-weighted multiple, i.e. what the index itself costs, where
+the mega-caps vote their weight. <i>Median</i> is the middle constituent, which is what the
+quintile boundaries above are cut from. On this run they differ by more than a point, and neither
+is a substitute for the other.</div>
+<table class="dt" style="max-width:820px"><thead><tr><th class="l" rowspan="2">Universe</th>
+<th rowspan="2">Names</th><th colspan="2">NTM (forward)</th><th colspan="2">TTM (trailing)</th>
+<th rowspan="2">Loss-<br>making</th></tr>
+<tr><th>Aggregate</th><th>Median</th><th>Aggregate</th><th>Median</th></tr></thead>
+<tbody><tr><td class='l'><b>S&amp;P 500 — all</b></td><td>502</td><td><b>20.1x</b></td><td>18.7x</td><td><b>26.4x</b></td><td>24.2x</td><td>28</td></tr><tr><td class='l'>Communication Services</td><td>22</td><td>17.6x</td><td>14.4x</td><td>17.9x</td><td>20.4x</td><td>4</td></tr><tr><td class='l'>Consumer Discretionary</td><td>47</td><td>25.5x</td><td>17.9x</td><td>28.4x</td><td>21.0x</td><td>1</td></tr><tr><td class='l'>Consumer Staples</td><td>34</td><td>22.7x</td><td>16.2x</td><td>30.3x</td><td>22.8x</td><td>5</td></tr><tr><td class='l'>Energy</td><td>21</td><td>14.6x</td><td>13.7x</td><td>17.8x</td><td>17.0x</td><td>0</td></tr><tr><td class='l'>Financials</td><td>76</td><td>15.8x</td><td>13.5x</td><td>16.4x</td><td>15.5x</td><td>3</td></tr><tr><td class='l'>Health Care</td><td>59</td><td>19.0x</td><td>18.1x</td><td>35.0x</td><td>29.5x</td><td>6</td></tr><tr><td class='l'>Industrials</td><td>83</td><td>24.8x</td><td>21.9x</td><td>29.5x</td><td>29.0x</td><td>0</td></tr><tr><td class='l'>Information Technology</td><td>73</td><td>21.5x</td><td>22.3x</td><td>36.3x</td><td>36.4x</td><td>4</td></tr><tr><td class='l'>Materials</td><td>25</td><td>17.6x</td><td>16.3x</td><td>29.2x</td><td>30.5x</td><td>4</td></tr><tr><td class='l'>Real Estate</td><td>31</td><td>36.6x</td><td>36.9x</td><td>35.7x</td><td>32.7x</td><td>1</td></tr><tr><td class='l'>Utilities</td><td>31</td><td>17.3x</td><td>18.1x</td><td>19.8x</td><td>21.4x</td><td>0</td></tr></tbody></table>
+<div class="note"><b>How this is computed, and why it will not exactly equal a vendor's number.</b>
+Market value is FMP's full market cap, <b>not float-adjusted</b>, while S&amp;P weights the index
+on float — so this is a full-cap aggregate and runs a little different by construction. Multiple
+share classes of one issuer are collapsed first (FMP reports Alphabet's entire
+70.3T-scale cap under <i>both</i> GOOGL and GOOG); leaving them in doubles
+that issuer's weight and moved the trailing aggregate by 3.1% on this run. Loss-makers are kept in
+the earnings sum, which is the honest index number — dropping them always reads cheaper.
+<b>The pack's Global-equity-valuations section reports a separate S&amp;P 500 trailing P/E from
+MSCI/Damodaran; this one is computed here from constituents.</b> They are two independent
+derivations of the same idea and land within a few percent — do not net them against each other,
+and do not treat a gap between them as a market signal. This one is 26.4x trailing.</div>
+
+
 <div class="foot">
 <b>Method.</b> NTM P/E = price &divide; NTM consensus EPS, where NTM EPS blends the consensus FY1
 and FY2 annual EPS by the time remaining in FY1: <code>w = days to FY1 end / 365</code>,
@@ -159,14 +192,52 @@ var D = window.__DATA__, ROWS = D.rows, BY = {};
 ROWS.forEach(function(r){ BY[r.ticker] = r; });
 var COLORS = D.colors, LABELS = D.labels;
 
-/* Which multiple the BOARD is cut on. Both rankings are precomputed server-side over their own
-   denominators — a name profitable on trailing earnings but forecast to lose money is in one
-   population and not the other, so the toggle swaps between two real rankings rather than
-   re-sorting one. The table always shows both columns whatever the toggle says. */
+/* Which multiple the BOARD is cut on. Each basis is ranked over its OWN population — a name
+   profitable on trailing earnings but forecast to lose money is in one and not the other — so the
+   toggle swaps between two real rankings rather than re-sorting one. The table always shows both
+   columns whatever the toggle says. */
 var BASIS = "ntm";
-function bkOf(r){ return BASIS === "ntm" ? r.bucket : r.ttm_bucket; }
 function peOf(r){ return BASIS === "ntm" ? r.ntm_pe : r.ttm_pe; }
-function edgesOf(){ return BASIS === "ntm" ? D.edges : D.ttm_edges; }
+
+/* ── The universe is the population the quintiles are CUT from, and it is NOT a filter. ──
+   Changing it recomputes every boundary ("cheapest fifth OF HEALTHCARE"); the filters below it
+   only subset the view and never recut ("which healthcare names sit in the MARKET's quintiles").
+   Those are different questions that look identical in a table, so they get different controls.
+
+   The cut is done here rather than precomputed per universe on the server for one reason: there
+   would then be two implementations of the same number — Python's and this — and they would
+   eventually disagree. `_bucket_index` in sp500_valuation.py is the same integer formula, and a
+   test pins them together. */
+var UNIVERSE = "sp500", CUT = {ntm: {}, ttm: {}}, EDGES = {ntm: {}, ttm: {}}, NRANK = {ntm: 0, ttm: 0};
+
+function inUniverse(r){
+  if (UNIVERSE === "sp500") return true;                 // this page's rows ARE the S&P 500
+  return r.sector === UNIVERSE;
+}
+
+function recut(){
+  ["ntm", "ttm"].forEach(function(basis){
+    var pool = ROWS.filter(function(r){
+      var pe = basis === "ntm" ? r.ntm_pe : r.ttm_pe;
+      return inUniverse(r) && pe && pe > 0;
+    });
+    pool.sort(function(a, b){
+      return (basis === "ntm" ? a.ntm_pe - b.ntm_pe : a.ttm_pe - b.ttm_pe);
+    });
+    var n = pool.length, cut = {}, edges = {};
+    pool.forEach(function(r, i){
+      var b = Math.min(4, Math.floor(i * 5 / n));
+      var pe = basis === "ntm" ? r.ntm_pe : r.ttm_pe;
+      cut[r.ticker] = {b: b, rank: i + 1, n: n, pctile: 100 * (i + 0.5) / n};
+      if (!edges[b]) edges[b] = {lo: pe, hi: pe, n: 0};
+      edges[b].hi = pe; edges[b].n++;
+    });
+    CUT[basis] = cut; EDGES[basis] = edges; NRANK[basis] = n;
+  });
+}
+
+function bkOf(r){ var c = CUT[BASIS][r.ticker]; return c ? c.b : null; }
+function edgesOf(){ return EDGES[BASIS]; }
 
 function pct(n){ return n === null || n === undefined ? "—" : n.toFixed(0) + "%"; }
 function num(v, nd){ return (v === null || v === undefined) ? "—" : v.toLocaleString(undefined,{minimumFractionDigits:nd,maximumFractionDigits:nd}); }
@@ -177,6 +248,7 @@ function filtered(){
   var mc  = parseFloat(document.getElementById("fcap").value) || 0;
   var held = document.getElementById("fheld").checked;
   return ROWS.filter(function(r){
+    if (!inUniverse(r)) return false;                    // universe first — it defines the cut
     if (sec && r.sector !== sec) return false;
     if (mc && (!r.mkt_cap || r.mkt_cap < mc*1e9)) return false;
     if (held && !r.held) return false;
@@ -211,8 +283,17 @@ function renderBoard(rows, hit){
 
 var sortKey = "ntm_pe", sortAsc = true;
 function renderTable(rows, hit){
+  /* Sort keys that the universe recut owns must be read from CUT, not from the row's stale
+     server-side value — otherwise sorting by "Mkt Q" inside a sector universe would order by the
+     index-wide quintile while the badges beside it show the sector one. */
+  function sortVal(r, k){
+    if (k === "bucket")      return CUT.ntm[r.ticker] ? CUT.ntm[r.ticker].b : null;
+    if (k === "pctile")      return CUT.ntm[r.ticker] ? CUT.ntm[r.ticker].pctile : null;
+    if (k === "ttm_bucket")  return CUT.ttm[r.ticker] ? CUT.ttm[r.ticker].b : null;
+    return r[k];
+  }
   var r2 = rows.slice().sort(function(a,b){
-    var x = a[sortKey], y = b[sortKey];
+    var x = sortVal(a, sortKey), y = sortVal(b, sortKey);
     if (x === null || x === undefined) return 1;
     if (y === null || y === undefined) return -1;
     if (typeof x === "string") return sortAsc ? x.localeCompare(y) : y.localeCompare(x);
@@ -220,18 +301,19 @@ function renderTable(rows, hit){
   });
   var out = "";
   r2.forEach(function(r){
-    var qb = (r.bucket === null || r.bucket === undefined)
+    var nb = CUT.ntm[r.ticker], tb = CUT.ttm[r.ticker];
+    var qb = !nb
       ? "<span class='qb' style='background:#9aa3ad'>nm</span>"
-      : "<span class='qb' style='background:" + COLORS[r.bucket] + "'>" + (r.bucket+1) + "</span>";
+      : "<span class='qb' style='background:" + COLORS[nb.b] + "'>" + (nb.b+1) + "</span>";
     var sq = (r.sector_bucket === null || r.sector_bucket === undefined)
       ? "—"
       : "<span class='qb' style='background:" + COLORS[r.sector_bucket] + "'>" + (r.sector_bucket+1) + "</span>";
-    var tq = (r.ttm_bucket === null || r.ttm_bucket === undefined)
+    var tq = !tb
       ? "<span class='qb' style='background:#9aa3ad'>nm</span>"
-      : "<span class='qb' style='background:" + COLORS[r.ttm_bucket] + "'>" + (r.ttm_bucket+1) + "</span>";
+      : "<span class='qb' style='background:" + COLORS[tb.b] + "'>" + (tb.b+1) + "</span>";
     out += "<tr class='" + (r.ticker === hit ? "hit" : "") + "'><td class='l'>" + r.ticker +
       "</td><td class='l'>" + r.name + "</td><td class='l'>" + r.sector +
-      "</td><td>" + qb + "</td><td>" + sq + "</td><td>" + (r.pctile === null || r.pctile === undefined ? "—" : r.pctile.toFixed(0)) +
+      "</td><td>" + qb + "</td><td>" + sq + "</td><td>" + (!nb ? "—" : nb.pctile.toFixed(0)) +
       "</td><td>" + num(r.ntm_pe,1) + "</td><td>" + tq + "</td><td>" + num(r.ttm_pe,1) +
       "</td><td>" + num(r.fy1_pe,1) + "</td><td>" + num(r.fy2_pe,1) +
       "</td><td>" + num(r.ntm_eps,2) + "</td><td>" + num(r.eps_ttm,2) +
@@ -242,18 +324,87 @@ function renderTable(rows, hit){
   document.getElementById("tcount").textContent = r2.length + " names";
 }
 
+/* A name's quintile DEPENDS on the universe, so showing only the active one invites the reader to
+   generalise a sector rank into a market rank. Every universe it belongs to is shown at once. */
+function rankTable(r){
+  var saved = UNIVERSE, out = "", rowsOut = [];
+  [["sp500", "S&P 500"], [r.sector, r.sector]].forEach(function(u){
+    if (!u[0]) return;
+    UNIVERSE = u[0]; recut();
+    ["ntm", "ttm"].forEach(function(basis){
+      var c = CUT[basis][r.ticker];
+      if (!c) return;
+      rowsOut.push("<tr><td class='l'>" + u[1] + "</td><td class='l'>" + basis.toUpperCase() +
+        "</td><td><span class='qb' style='background:" + COLORS[c.b] + "'>" + (c.b+1) +
+        "</span></td><td>" + c.rank + " / " + c.n + "</td><td>" + c.pctile.toFixed(0) + "</td></tr>");
+    });
+  });
+  UNIVERSE = saved; recut();
+  if (!rowsOut.length) return "";
+  return "<table class='dt' style='margin-top:9px;max-width:460px'><thead><tr>" +
+    "<th class='l'>Universe</th><th class='l'>Basis</th><th>Quintile</th><th>Rank</th>" +
+    "<th>Pctile</th></tr></thead><tbody>" + rowsOut.join("") + "</tbody></table>";
+}
+
+/* The boundaries table is rendered from EDGES, the same object the board headers read. It used
+   to be server-rendered static HTML, which silently kept showing the S&P 500's bands after the
+   universe was switched to Energy — a table of the right shape and the wrong population, which is
+   worse than no table. One cut, every consumer. */
+function renderEdges(){
+  var out = "";
+  for (var b = 0; b < 5; b++){
+    var e = EDGES.ntm[b], t = EDGES.ttm[b];
+    var med = function(basis, bk){
+      var pool = ROWS.filter(function(r){
+        var c = CUT[basis][r.ticker]; return c && c.b === bk;
+      }).map(function(r){ return basis === "ntm" ? r.ntm_pe : r.ttm_pe; }).sort(function(x,y){return x-y;});
+      return pool.length ? pool[Math.floor(pool.length/2)] : null;
+    };
+    out += "<tr><td class='l'><span class='qb' style='background:" + COLORS[b] + "'>" + (b+1) +
+      "</span> " + LABELS[b] + "</td><td>" + (e ? e.n : 0) + "</td>" +
+      "<td>" + (e ? num(e.lo,1) + "–" + num(e.hi,1) + "x" : "—") + "</td>" +
+      "<td>" + (e ? num(med("ntm",b),1) + "x" : "—") + "</td>" +
+      "<td>" + (t ? num(t.lo,1) + "–" + num(t.hi,1) + "x" : "—") + "</td>" +
+      "<td>" + (t ? num(med("ttm",b),1) + "x" : "—") + "</td></tr>";
+  }
+  document.getElementById("edgebody").innerHTML = out;
+  var allN = ROWS.filter(function(r){ return inUniverse(r) && r.ntm_pe > 0; })
+                 .map(function(r){ return r.ntm_pe; }).sort(function(a,b){return a-b;});
+  var allT = ROWS.filter(function(r){ return inUniverse(r) && r.ttm_pe > 0; })
+                 .map(function(r){ return r.ttm_pe; }).sort(function(a,b){return a-b;});
+  var uname = UNIVERSE === "sp500" ? "the S&amp;P 500" : UNIVERSE;
+  document.getElementById("edgenote").innerHTML =
+    "Median <b>" + (allN.length ? num(allN[Math.floor(allN.length/2)],1) : "—") + "x</b> NTM across " +
+    allN.length + " ranked names in " + uname + ", <b>" +
+    (allT.length ? num(allT[Math.floor(allT.length/2)],1) : "—") + "x</b> TTM across " + allT.length +
+    ". The two populations are <i>not</i> the same set. Buckets are equal-<i>count</i>, not " +
+    "equal-width: P/E has a long right tail, so equal-width bands would leave three names in Q5.";
+  /* The bunching note is a statement about the FULL index; inside a sector universe it would be
+     describing a population that is no longer on screen. */
+  var cn = document.getElementById("concnote");
+  if (cn) cn.style.display = (UNIVERSE === "sp500") ? "" : "none";
+  /* The basis note names a count and a median, both of which are universe-dependent. It lived as
+     static server text and kept asserting "500 ranked, median 18.8x" while the board showed 21
+     Energy names -- the same stale-population bug as the boundaries table, one line further up. */
+  var bn = document.getElementById("basisnote");
+  if (bn){
+    var pool = (BASIS === "ntm" ? allN : allT);
+    bn.innerHTML = "Board cut on <b>" + BASIS.toUpperCase() + "</b> (" +
+      (BASIS === "ntm" ? "next-twelve-month consensus" : "trailing twelve months, reported") +
+      ") over <b>" + uname + "</b> — " + pool.length + " ranked, median " +
+      (pool.length ? num(pool[Math.floor(pool.length/2)],1) : "—") + "x.";
+  }
+}
+
 function verdict(r){
-  if (r.bucket === null || r.bucket === undefined)
-    return "<b>Not ranked</b> — " + (r.nm_reason || "no data") +
+  var c = CUT.ntm[r.ticker];
+  if (!c)
+    return "<b>Not ranked on forward earnings</b> — " + (r.nm_reason || "no data") +
            ". A company with no positive forward consensus EPS has no P/E to rank; it is not " +
            "'expensive', it is unpriceable on this metric.";
-  var s = "Cheaper than <b>" + (100 - r.pctile).toFixed(0) + "%</b> of the " + D.n_ranked +
-          " ranked S&amp;P 500 names — rank <b>" + r.rank + "</b> of " + D.n_ranked + ".";
-  if (r.sector_bucket !== null && r.sector_bucket !== undefined)
-    s += " Within <b>" + r.sector + "</b> it is <b>" + LABELS[r.sector_bucket].split(" ")[0] +
-         "</b> (" + r.sector_rank + " of " + r.sector_n + ").";
-  else
-    s += " No sector quintile — too few ranked names in " + r.sector + ".";
+  var uname = UNIVERSE === "sp500" ? "S&amp;P 500" : UNIVERSE;
+  var s = "Cheaper than <b>" + (100 - c.pctile).toFixed(0) + "%</b> of the " + c.n +
+          " ranked <b>" + uname + "</b> names — rank <b>" + c.rank + "</b> of " + c.n + ".";
   if (r.horizon === "fy1")
     s += " <i>Only one forward year is published for this name, so the multiple is FY1, not a " +
          "12-month blend.</i>";
@@ -275,17 +426,18 @@ function verdict(r){
 function showCard(t){
   var r = BY[t], el = document.getElementById("card");
   if (!r){ el.style.display = "none"; return; }
-  var col = (r.bucket === null || r.bucket === undefined) ? "#9aa3ad" : COLORS[r.bucket];
-  var lbl = (r.bucket === null || r.bucket === undefined) ? "not ranked" : LABELS[r.bucket];
+  var c = CUT[BASIS][r.ticker];
+  var col = !c ? "#9aa3ad" : COLORS[c.b];
+  var lbl = !c ? "not ranked" : LABELS[c.b];
   el.style.display = "block";
   el.innerHTML =
     "<div><span class='tk'>" + r.ticker + "</span><span class='nm'>" + r.name + " · " +
       r.sector + "</span> <span class='pill' style='background:" + col + "'>" + lbl + "</span></div>" +
     "<div class='grid'>" +
       "<div class='kv'>NTM P/E<b>" + num(r.ntm_pe,1) + "x</b></div>" +
-      "<div class='kv'>NTM pctile<b>" + (r.pctile === null || r.pctile === undefined ? "—" : r.pctile.toFixed(0)) + "</b></div>" +
+      "<div class='kv'>NTM pctile<b>" + (CUT.ntm[r.ticker] ? CUT.ntm[r.ticker].pctile.toFixed(0) : "—") + "</b></div>" +
       "<div class='kv'>TTM P/E<b>" + num(r.ttm_pe,1) + "x</b></div>" +
-      "<div class='kv'>TTM pctile<b>" + (r.ttm_pctile === null || r.ttm_pctile === undefined ? "—" : r.ttm_pctile.toFixed(0)) + "</b></div>" +
+      "<div class='kv'>TTM pctile<b>" + (CUT.ttm[r.ticker] ? CUT.ttm[r.ticker].pctile.toFixed(0) : "—") + "</b></div>" +
       "<div class='kv'>FY1 P/E<b>" + num(r.fy1_pe,1) + "x</b></div>" +
       "<div class='kv'>FY2 P/E<b>" + num(r.fy2_pe,1) + "x</b></div>" +
       "<div class='kv'>NTM EPS<b>" + num(r.ntm_eps,2) + "</b></div>" +
@@ -293,7 +445,7 @@ function showCard(t){
       "<div class='kv'>Price<b>" + num(r.price,2) + "</b></div>" +
       "<div class='kv'>Mkt cap<b>" + cap(r.mkt_cap) + "</b></div>" +
       "<div class='kv'>Index median<b>" + num(D.median_pe,1) + "x</b><span style='font-size:11px;color:#5b6672'>NTM · TTM " + num(D.ttm_median_pe,1) + "x</span></div>" +
-    "</div><div class='verdict'>" + verdict(r) + "</div>";
+    "</div><div class='verdict'>" + verdict(r) + "</div>" + rankTable(r);
 }
 
 function search(){
@@ -315,6 +467,7 @@ function pick(t){ document.getElementById("q").value = t; search(); }
 function draw(hit){
   var rows = filtered();
   renderBoard(rows, hit);
+  renderEdges();
   renderTable(rows, hit);
   document.getElementById("fcount").textContent = rows.length + " of " + ROWS.length + " names";
 }
@@ -334,22 +487,43 @@ document.addEventListener("DOMContentLoaded", function(){
   document.getElementById("board").addEventListener("click", function(e){
     var li = e.target.closest("li"); if (li) pick(li.dataset.t);
   });
+  document.getElementById("universe").addEventListener("change", function(){
+    UNIVERSE = this.value;
+    recut();
+    document.getElementById("uninote").innerHTML =
+      "Quintiles recut over <b>" + (UNIVERSE === "sp500" ? "all 503 S&amp;P 500 names" : UNIVERSE) +
+      "</b> — " + NRANK.ntm + " rankable on NTM, " + NRANK.ttm + " on TTM.";
+    document.getElementById("q").value = "";
+    document.getElementById("card").style.display = "none";
+    document.getElementById("sugg").innerHTML = "";
+    draw(null);
+  });
   document.querySelectorAll("#basis .vbtn").forEach(function(btn){
     btn.addEventListener("click", function(){
       BASIS = btn.getAttribute("data-b");
       document.querySelectorAll("#basis .vbtn").forEach(function(b){
         b.classList.toggle("active", b === btn);
       });
-      document.getElementById("basisnote").innerHTML = BASIS === "ntm"
-        ? "Board cut on <b>NTM</b> (next-twelve-month consensus) — " + D.n_ranked +
-          " ranked, median " + num(D.median_pe,1) + "x."
-        : "Board cut on <b>TTM</b> (trailing twelve months, reported) — " + D.n_ttm_ranked +
-          " ranked, median " + num(D.ttm_median_pe,1) + "x. Different population: a name can be " +
-          "profitable on trailing earnings and forecast to lose money, or the reverse.";
       var h = document.querySelector("#board li.hit");
       draw(h ? h.dataset.t : null);
     });
   });
+  /* The hub deep-links each view as `#u=<universe>`. Applied before the first cut so the page
+     never renders the S&P 500 board and then visibly swap to the requested one. An unknown or
+     absent hash falls through to the default rather than erroring. */
+  var want = decodeURIComponent((location.hash.match(/u=([^&]+)/) || [])[1] || "");
+  if (want){
+    var sel = document.getElementById("universe");
+    for (var i = 0; i < sel.options.length; i++){
+      if (sel.options[i].value === want){ sel.value = want; UNIVERSE = want; break; }
+    }
+  }
+  recut();
+  if (want && UNIVERSE === want && want !== "sp500"){
+    document.getElementById("uninote").innerHTML =
+      "Quintiles recut over <b>" + UNIVERSE + "</b> — " + NRANK.ntm +
+      " rankable on NTM, " + NRANK.ttm + " on TTM.";
+  }
   draw(null);
 });
 </script>
